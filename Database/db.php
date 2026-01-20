@@ -2,7 +2,7 @@
 $host = "localhost"; //Database Host
 $user = "root"; //Database User
 $password = ""; //Database Password
-$db = "libary_db"; //Database Name
+$db = "library_db"; //Database Name
 
 //Create Connection
 $conn = new mysqli($host, $user, $password, $db);

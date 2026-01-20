@@ -1,3 +1,39 @@
+<?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+try {
+    include 'Database/db.php';
+
+    if (isset($_POST['submit'])) {
+        $name = $_POST['fullname'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Use prepared statements for security
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+
+        if ($stmt === false) {
+            throw new Exception("Prepare failed: " . $conn->error);
+        }
+
+        $stmt->bind_param("sss", $name, $email, $password);
+
+        if ($stmt->execute()) {
+            header('Location: login_page.php');
+            exit();
+        } else {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
+        $stmt->close();
+    }
+} catch (Exception $e) {
+    echo "<div style='color: red; padding: 20px; text-align: center; font-weight: bold;'>Error: " . $e->getMessage() .
+        "</div>";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +85,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-primary">Sign Up</button>
+            <button type="submit" name="submit" class="btn-primary">Sign Up</button>
 
             <button type="button" class="btn-secondary" onclick="window.location.href='login_page.php'">
                 Already have an account? Log In
