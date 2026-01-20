@@ -5,48 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management System</title>
-    <link rel="stylesheet" href="Components/style.css">
+    <link rel="stylesheet" href="Components/style.css?v=2">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        .landing-container {
-            text-align: center;
-            color: white;
-            z-index: 10;
-        }
 
-        .landing-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .landing-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .btn-glass {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-glass:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-    </style>
 </head>
 
 <body>

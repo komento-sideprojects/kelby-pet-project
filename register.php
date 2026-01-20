@@ -24,13 +24,17 @@ try {
             header('Location: login_page.php');
             exit();
         } else {
-            throw new Exception("Execute failed: " . $stmt->error);
+            if ($stmt->errno === 1062) {
+                // Duplicate entry error
+                echo "<script>alert('This email is already registered. Please log in or use a different email.');</script>";
+            } else {
+                throw new Exception("Execute failed: " . $stmt->error);
+            }
         }
         $stmt->close();
     }
 } catch (Exception $e) {
-    echo "<div style='color: red; padding: 20px; text-align: center; font-weight: bold;'>Error: " . $e->getMessage() .
-        "</div>";
+    echo "<div style='color: red; padding: 20px; text-align: center; font-weight: bold;'>Error: " . $e->getMessage() . "</div>";
 }
 ?>
 

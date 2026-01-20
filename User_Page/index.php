@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../login_page.php');
+    exit();
+}
+
+$user_name = $_SESSION['user_name'] ?? 'Student';
+$user_email = $_SESSION['user_email'] ?? 'student@library.com';
+
+// Get initials for avatar
+$initials = strtoupper(substr($user_name, 0, 2));
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +65,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="../login_page.html" style="color: #ef4444;">
+                <a href="../logout.php" style="color: #ef4444;">
                     <i class="ph-duotone ph-sign-out"></i>
                     <span>Logout</span>
                 </a>
@@ -59,11 +74,15 @@
 
         <div class="user-profile">
             <div class="avatar" style="background: linear-gradient(135deg, #10b981, #3b82f6);">
-                US
+                <?php echo $initials; ?>
             </div>
             <div class="user-info">
-                <h4>Student User</h4>
-                <p>student@library.com</p>
+                <h4>
+                    <?php echo htmlspecialchars($user_name); ?>
+                </h4>
+                <p>
+                    <?php echo htmlspecialchars($user_email); ?>
+                </p>
             </div>
         </div>
     </aside>

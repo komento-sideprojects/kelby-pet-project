@@ -1,3 +1,42 @@
+<?php
+session_start();
+include 'Database/db.php';
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (isset($_POST['submit'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Use prepared statements for security
+    $stmt = $conn->prepare("SELECT id, name, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        // In a real app, use password_verify($password, $user['password'])
+        // We are using plain text for this simple project as requested by previous flow
+        if ($password === $user['password']) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_email'] = $email;
+
+            // Redirect to User Dashboard
+            header('Location: User_Page/index.php');
+            exit();
+        } else {
+            $error = "Invalid password.";
+        }
+    } else {
+        $error = "No account found with that email.";
+    }
+    $stmt->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +91,13 @@
                 <a href="forgot_password.php" class="forgot-password">Forgot password?</a>
             </div>
 
-            <button type="submit" class="btn-primary">Sign In</button>
+            <?php if (isset($error)): ?>
+                <div style="color: #ef4444; margin-bottom: 1rem; text-align: center; font-size: 0.9rem;">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+
+            <button type="submit" name="submit" class="btn-primary">Sign In</button>
             <button type="button" class="btn-secondary" onclick="window.location.href='register.php'">Sign Up</button>
         </form>
     </div>
