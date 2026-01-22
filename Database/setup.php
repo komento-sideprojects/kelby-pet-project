@@ -35,6 +35,26 @@ if ($conn->query($sqlBooks) === TRUE) {
     echo "Error creating table books: " . $conn->error . "<br>";
 }
 
+// SQL to create borrowed_books table
+$sqlBorrowedBooks = "CREATE TABLE IF NOT EXISTS borrowed_books (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(6) UNSIGNED NOT NULL,
+    book_id INT(6) UNSIGNED NOT NULL,
+    borrow_date DATE NOT NULL,
+    due_date DATE NOT NULL,
+    return_date DATE DEFAULT NULL,
+    status VARCHAR(20) DEFAULT 'borrowed',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
+)";
+
+if ($conn->query($sqlBorrowedBooks) === TRUE) {
+    echo "Table 'borrowed_books' checked/created successfully.<br>";
+} else {
+    echo "Error creating table borrowed_books: " . $conn->error . "<br>";
+}
+
 // Check if role column exists (for handling existing table updates)
 $checkColumn = "SHOW COLUMNS FROM users LIKE 'role'";
 $result = $conn->query($checkColumn);

@@ -14,8 +14,14 @@
         </li>
         <li class="nav-item">
             <a href="my_books.php" class="<?php echo ($current_page == 'my_books') ? 'active' : ''; ?>">
+                <i class="ph-duotone ph-books"></i>
+                <span>Browse Books</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="borrowed.php" class="<?php echo ($current_page == 'borrowed') ? 'active' : ''; ?>">
                 <i class="ph-duotone ph-book-open"></i>
-                <span>My Books</span>
+                <span>My Borrowed Books</span>
             </a>
         </li>
         <li class="nav-item">
