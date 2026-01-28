@@ -11,13 +11,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('user.dashboard');
+        return response()->json(['message' => 'User dashboard data here']);
     }
 
     public function browse()
     {
         $books = Book::where('available', '>', 0)->get();
-        return view('user.books.browse', compact('books'));
+        return response()->json($books);
     }
 
     public function borrow(Request $request)
@@ -31,7 +31,7 @@ class UserController extends Controller
         if ($book->available > 0) {
             $book->decrement('available');
 
-            BorrowedBook::create([
+            $borrowed = BorrowedBook::create([
                 'user_id' => Auth::id(),
                 'book_id' => $book->id,
                 'borrow_date' => now()->toDateString(),
@@ -39,15 +39,18 @@ class UserController extends Controller
                 'status' => 'borrowed'
             ]);
 
-            return back()->with('success', 'Book borrowed successfully!');
+            return response()->json([
+                'message' => 'Book borrowed successfully!',
+                'borrowed' => $borrowed
+            ]);
         }
 
-        return back()->with('error', 'Book is not available.');
+        return response()->json(['message' => 'Book is not available.'], 400);
     }
 
     public function borrowed()
     {
         $borrowedBooks = Auth::user()->borrowedBooks()->with('book')->get();
-        return view('user.books.borrowed', compact('borrowedBooks'));
+        return response()->json($borrowedBooks);
     }
 }
