@@ -28,6 +28,8 @@ export default function Sidebar() {
     const links = isAdmin ? [
         { to: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
         { to: '/admin/books', icon: Search, label: 'Manage Books' },
+        { to: '/admin/issued', icon: BookOpen, label: 'Issued Books' },
+        { to: '/admin/students', icon: UserCircle, label: 'Students' },
     ] : [
         { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
         { to: '/browse', icon: Search, label: 'Browse Books' },
@@ -50,6 +52,7 @@ export default function Sidebar() {
                     <NavLink
                         key={link.to}
                         to={link.to}
+                        end={link.to === '/admin' || link.to === '/dashboard'}
                         className={({ isActive }) =>
                             `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
                                 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
@@ -64,7 +67,10 @@ export default function Sidebar() {
             </nav>
 
             <div className="mt-auto pt-6 border-t border-slate-100 flex flex-col gap-2">
-                <button className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100 transition-all">
+                <button
+                    onClick={() => alert('Settings coming soon!')}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100 transition-all"
+                >
                     <Settings size={20} />
                     <span className="font-medium">Settings</span>
                 </button>

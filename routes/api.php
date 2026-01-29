@@ -17,9 +17,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/books/borrow', [UserController::class, 'borrow']);
     Route::get('/books/borrowed', [UserController::class, 'borrowed']);
 
-    // Admin Routes
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index']);
         Route::get('/books', [AdminController::class, 'manageBooks']);
+        Route::post('/books', [AdminController::class, 'store']);
+        Route::get('/students', [AdminController::class, 'getStudents']);
+        Route::get('/issued-books', [AdminController::class, 'getIssuedBooks']);
     });
 });

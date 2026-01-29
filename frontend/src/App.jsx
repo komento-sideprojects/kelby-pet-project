@@ -7,6 +7,9 @@ import StudentDashboard from './pages/StudentDashboard';
 import BrowseBooks from './pages/BrowseBooks';
 import BorrowedBooks from './pages/BorrowedBooks';
 import AdminDashboard from './pages/AdminDashboard';
+import ManageBooks from './pages/ManageBooks';
+import IssuedBooks from './pages/IssuedBooks';
+import StudentsList from './pages/StudentsList';
 
 const ProtectedRoute = ({ children, role }) => {
   const { user, loading } = useAuth();
@@ -41,7 +44,9 @@ function App() {
           {/* Admin Routes */}
           <Route element={<ProtectedRoute role="admin"><DashboardLayout title="Admin Console" subtitle="System overview and management." /></ProtectedRoute>}>
             <Route path="/admin" element={<AdminDashboard />} />
-            {/* Add more admin pages like book management here */}
+            <Route path="/admin/books" element={<ManageBooks />} />
+            <Route path="/admin/issued" element={<IssuedBooks />} />
+            <Route path="/admin/students" element={<StudentsList />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" />} />

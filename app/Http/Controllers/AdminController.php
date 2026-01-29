@@ -26,4 +26,39 @@ class AdminController extends Controller
         $books = Book::all();
         return response()->json($books);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $book = Book::create([
+            'title' => $request->title,
+            'author' => $request->author,
+            'category' => $request->category,
+            'quantity' => $request->quantity,
+            'available' => $request->quantity,
+        ]);
+
+        return response()->json([
+            'message' => 'Book added successfully!',
+            'book' => $book
+        ], 201);
+    }
+
+    public function getStudents()
+    {
+        $students = User::where('role', 'user')->get();
+        return response()->json($students);
+    }
+
+    public function getIssuedBooks()
+    {
+        $issued = \App\Models\BorrowedBook::with(['book', 'user'])->get();
+        return response()->json($issued);
+    }
 }

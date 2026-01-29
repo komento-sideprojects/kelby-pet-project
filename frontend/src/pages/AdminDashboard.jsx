@@ -29,7 +29,11 @@ export default function AdminDashboard() {
         <div className="space-y-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {cards.map((card, i) => (
-                    <div key={i} className="glass-card p-8 rounded-[32px] flex items-center gap-6">
+                    <div
+                        key={i}
+                        onClick={() => alert(`View details for ${card.label}`)}
+                        className="glass-card p-8 rounded-[32px] flex items-center gap-6 cursor-pointer hover:scale-105 transition-all duration-300 active:scale-95"
+                    >
                         <div className={`p-5 rounded-3xl ${card.color} text-white shadow-xl shadow-slate-100`}>
                             <card.icon size={32} />
                         </div>

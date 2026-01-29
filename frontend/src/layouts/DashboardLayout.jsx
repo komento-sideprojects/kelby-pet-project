@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import { Bell, Search } from 'lucide-react';
 
 export default function DashboardLayout({ title, subtitle }) {
     return (
@@ -13,10 +14,10 @@ export default function DashboardLayout({ title, subtitle }) {
                     </div>
                     <div className="flex gap-4">
                         <button className="p-3 glass-card rounded-xl text-slate-500 hover:text-indigo-600 transition-all">
-                            <i className="ph-bold ph-bell text-xl"></i>
+                            <Bell size={20} />
                         </button>
                         <button className="p-3 glass-card rounded-xl text-slate-500 hover:text-indigo-600 transition-all">
-                            <i className="ph-bold ph-magnifying-glass text-xl"></i>
+                            <Search size={20} />
                         </button>
                     </div>
                 </header>

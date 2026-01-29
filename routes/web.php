@@ -1,24 +1,24 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
-    Route::get('/books/browse', [UserController::class, 'browse'])->name('books.browse');
-    Route::post('/books/borrow', [UserController::class, 'borrow'])->name('books.borrow');
-    Route::get('/books/borrowed', [UserController::class, 'borrowed'])->name('books.borrowed');
-});
+// Catch-all route for React SPA
+// This should be at the bottom if you have other web routes
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '^(?!api|up).*$');
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/books', [AdminController::class, 'manageBooks'])->name('admin.books');
-    // Add more admin routes here
+Route::get('/', function () {
+    return view('app');
 });

@@ -8,15 +8,24 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            api.get('/user')
-                .then(res => setUser(res.data))
-                .catch(() => localStorage.removeItem('token'))
-                .finally(() => setLoading(false));
-        } else {
-            setLoading(false);
-        }
+        const checkAuth = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const res = await api.get('/user');
+                setUser(res.data);
+            } catch (err) {
+                localStorage.removeItem('token');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkAuth();
     }, []);
 
     const login = async (email, password) => {
@@ -42,11 +51,25 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const value = {
+        user,
+        login,
+        register,
+        logout,
+        loading
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};
